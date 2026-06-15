@@ -29,7 +29,7 @@ The Syncfusion<sup style="font-size:70%">&reg;</sup> [ASP.NET MVC DOCX Editor](h
 
 - **Documentation:**   [Syncfusion® ASP.NET MVC Word Processor - Documentation](https://help.syncfusion.com/document-processing/word/word-processor/asp-net-mvc/overview?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples) 
 
-- **Online demo:**   [Syncfusion® ASP.NET MVC Word Processor - Online demo](https://document.syncfusion.com/demos/docx-editor/asp-net-mvc/documenteditor/defaultfunctionalities#/tailwind3?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples) 
+- **Online demo:**   [Syncfusion® ASP.NET MVC Word Processor - Online demo](https://document.syncfusion.com/demos/docx-editor/asp-net-mvc/documenteditor/defaultfunctionalities?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples#/tailwind3)
 
 # Support and feedback
 
