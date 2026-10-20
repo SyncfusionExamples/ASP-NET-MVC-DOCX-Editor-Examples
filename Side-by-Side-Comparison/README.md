@@ -59,7 +59,7 @@ Press **F5** or click **Run** in Visual Studio. The application will launch in y
 
 ## Verify the Sample
 
-1. Launch the application.
+1. Launch the application. The sample is configured with the Syncfusion **Tailwind** theme (`tailwind.css`).
 2. Click **Choose file** under **Original document** and select a DOCX file.
 3. Click **Choose file** under **Revised document** and select another version of the same document.
 4. Click **Compare**.
