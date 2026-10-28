@@ -46,11 +46,29 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Syncfusion.EJ2, Version=33.2.3.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <HintPath>packages\Syncfusion.EJ2.MVC5.33.2.3\lib\net462\Syncfusion.EJ2.dll</HintPath>
+    <Reference Include="Syncfusion.EJ2">
+      <HintPath>packages\Syncfusion.EJ2.MVC5.35.1.42\lib\net462\Syncfusion.EJ2.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Licensing, Version=33.2462.3.0, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
-      <HintPath>packages\Syncfusion.Licensing.33.2.3\lib\net462\Syncfusion.Licensing.dll</HintPath>
+    <Reference Include="Syncfusion.EJ2.DocumentEditor">
+      <HintPath>packages\Syncfusion.EJ2.WordEditor.AspNet.Mvc5.35.1.42\lib\net462\Syncfusion.EJ2.DocumentEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.DocIO.Base">
+      <HintPath>packages\Syncfusion.DocIO.AspNet.Mvc5.35.1.42\lib\net462\Syncfusion.DocIO.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Compression.Base">
+      <HintPath>packages\Syncfusion.DocIO.AspNet.Mvc5.35.1.42\lib\net462\Syncfusion.Compression.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.OfficeChart.Base">
+      <HintPath>packages\Syncfusion.DocIO.AspNet.Mvc5.35.1.42\lib\net462\Syncfusion.OfficeChart.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Markdown">
+      <HintPath>packages\Syncfusion.DocIO.AspNet.Mvc5.35.1.42\lib\net462\Syncfusion.Markdown.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing">
+      <HintPath>packages\Syncfusion.Licensing.35.1.42\lib\net462\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Telemetry">
+      <HintPath>packages\Syncfusion.Telemetry.35.1.42\lib\net462\Syncfusion.Telemetry.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -120,6 +138,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DocumentEditorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
