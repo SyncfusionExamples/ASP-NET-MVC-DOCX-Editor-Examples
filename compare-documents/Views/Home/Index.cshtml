@@ -1,0 +1,16 @@
+<button id="compare" class="e-btn e-primary">Compare Documents</button>
+@Html.EJS().DocumentEditorContainer("container").Height("590px").EnableToolbar(false).ShowPropertiesPane(false).EnableTrackChanges(true).ServiceUrl(Url.Content("~/DocumentEditor/")).Render()
+
+<script>
+    document.getElementById('compare').addEventListener('click', function () {
+        var container = document.getElementById('container').ej2_instances[0];
+        var editor = container.documentEditor;
+        // Compare the documents on the server side and open the resultant SFDT with tracked changes.
+        fetch('@Url.Content("~/DocumentEditor/CompareDocuments")', { method: 'POST' })
+            .then(function (response) { return response.text(); })
+            .then(function (sfdt) {
+                editor.showRevisions = true;
+                editor.open(sfdt);
+            });
+    });
+</script>
