@@ -1,12 +1,20 @@
 <button id="compare" class="e-btn e-primary">Compare Documents</button>
-@Html.EJS().DocumentEditorContainer("container").Height("590px").EnableToolbar(false).ShowPropertiesPane(false).EnableTrackChanges(true).ServiceUrl(Url.Content("~/DocumentEditor/")).Render()
+@Html.EJS().DocumentEditorContainer("container").Height("590px").EnableToolbar(false).ShowPropertiesPane(false).EnableTrackChanges(true).Render()
 
 <script>
+    // Static SFDT contents of the original and revised documents.
+    var originalSfdt = '{"sections":[{"blocks":[{"inlines":[{"text":"Syncfusion Document Editor lets you create Word documents."}]},{"inlines":[{"text":"This paragraph is removed in the revised document."}]}],"headersFooters":{}}]}';
+    var revisedSfdt = '{"sections":[{"blocks":[{"inlines":[{"text":"Syncfusion Document Editor lets you create and edit Word documents."}]},{"inlines":[{"text":"This paragraph is added in the revised document."}]}],"headersFooters":{}}]}';
+
     document.getElementById('compare').addEventListener('click', function () {
-        var container = document.getElementById('container').ej2_instances[0];
-        var editor = container.documentEditor;
-        // Compare the documents on the server side and open the resultant SFDT with tracked changes.
-        fetch('@Url.Content("~/DocumentEditor/CompareDocuments")', { method: 'POST' })
+        var editor = document.getElementById('container').ej2_instances[0].documentEditor;
+
+        // Send the documents to the Web API, which compares them and returns the resultant SFDT.
+        var formData = new FormData();
+        formData.append('OriginalFile', new Blob([originalSfdt]), 'original.sfdt');
+        formData.append('RevisedFile', new Blob([revisedSfdt]), 'revised.sfdt');
+
+        fetch('@Url.Content("~/DocumentEditor/CompareDocuments")', { method: 'POST', body: formData })
             .then(function (response) { return response.text(); })
             .then(function (sfdt) {
                 editor.showRevisions = true;

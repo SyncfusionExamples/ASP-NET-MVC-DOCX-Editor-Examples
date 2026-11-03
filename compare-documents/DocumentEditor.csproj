@@ -64,15 +64,6 @@
     <Reference Include="Syncfusion.Markdown">
       <HintPath>packages\Syncfusion.DocIO.AspNet.Mvc5.35.1.42\lib\net462\Syncfusion.Markdown.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.EJ2.SpellChecker">
-      <HintPath>packages\Syncfusion.EJ2.SpellChecker.AspNet.Mvc5.35.1.42\lib\net462\Syncfusion.EJ2.SpellChecker.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.DocToPdfConverter.Base">
-      <HintPath>packages\Syncfusion.DocToPdfConverter.AspNet.Mvc5.35.1.42\lib\net462\Syncfusion.DocToPdfConverter.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.Pdf.Base">
-      <HintPath>packages\Syncfusion.Pdf.AspNet.Mvc5.35.1.42\lib\net462\Syncfusion.Pdf.Base.dll</HintPath>
-    </Reference>
     <Reference Include="Syncfusion.Licensing">
       <HintPath>packages\Syncfusion.Licensing.35.1.42\lib\net462\Syncfusion.Licensing.dll</HintPath>
     </Reference>
@@ -155,109 +146,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap-grid.rtl.css" />
-    <Content Include="Content\bootstrap-grid.rtl.min.css" />
-    <Content Include="Content\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap-reboot.min.css" />
-    <Content Include="Content\bootstrap-reboot.rtl.css" />
-    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
-    <Content Include="Content\bootstrap-utilities.css" />
-    <Content Include="Content\bootstrap-utilities.min.css" />
-    <Content Include="Content\bootstrap-utilities.rtl.css" />
-    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\bootstrap.rtl.css" />
-    <Content Include="Content\bootstrap.rtl.min.css" />
-    <Content Include="Content\ej2\bds-dark-lite.css" />
-    <Content Include="Content\ej2\bds-dark.css" />
-    <Content Include="Content\ej2\bds-lite.css" />
-    <Content Include="Content\ej2\bds.css" />
-    <Content Include="Content\ej2\bootstrap-dark-lite.css" />
-    <Content Include="Content\ej2\bootstrap-dark.css" />
-    <Content Include="Content\ej2\bootstrap-lite.css" />
-    <Content Include="Content\ej2\bootstrap.css" />
-    <Content Include="Content\ej2\bootstrap4-lite.css" />
-    <Content Include="Content\ej2\bootstrap4.css" />
-    <Content Include="Content\ej2\bootstrap5-dark-lite.css" />
-    <Content Include="Content\ej2\bootstrap5-dark.css" />
-    <Content Include="Content\ej2\bootstrap5-lite.css" />
-    <Content Include="Content\ej2\bootstrap5.3-dark-lite.css" />
-    <Content Include="Content\ej2\bootstrap5.3-dark.css" />
-    <Content Include="Content\ej2\bootstrap5.3-lite.css" />
-    <Content Include="Content\ej2\bootstrap5.3.css" />
-    <Content Include="Content\ej2\bootstrap5.css" />
-    <Content Include="Content\ej2\compatibility\bootstrap.css" />
-    <Content Include="Content\ej2\compatibility\bootstrap4.css" />
-    <Content Include="Content\ej2\compatibility\fabric.css" />
-    <Content Include="Content\ej2\compatibility\highcontrast.css" />
-    <Content Include="Content\ej2\compatibility\material.css" />
-    <Content Include="Content\ej2\customized\material-dark.css" />
-    <Content Include="Content\ej2\customized\material.css" />
-    <Content Include="Content\ej2\customized\tailwind-dark.css" />
-    <Content Include="Content\ej2\customized\tailwind.css" />
-    <Content Include="Content\ej2\fabric-dark-lite.css" />
-    <Content Include="Content\ej2\fabric-dark.css" />
-    <Content Include="Content\ej2\fabric-lite.css" />
-    <Content Include="Content\ej2\fabric.css" />
-    <Content Include="Content\ej2\fluent-dark-lite.css" />
-    <Content Include="Content\ej2\fluent-dark.css" />
-    <Content Include="Content\ej2\fluent-lite.css" />
-    <Content Include="Content\ej2\fluent.css" />
-    <Content Include="Content\ej2\fluent2-dark-lite.css" />
-    <Content Include="Content\ej2\fluent2-dark.css" />
-    <Content Include="Content\ej2\fluent2-highcontrast-lite.css" />
-    <Content Include="Content\ej2\fluent2-highcontrast.css" />
-    <Content Include="Content\ej2\fluent2-lite.css" />
-    <Content Include="Content\ej2\fluent2.css" />
-    <Content Include="Content\ej2\highcontrast-lite.css" />
-    <Content Include="Content\ej2\highcontrast.css" />
-    <Content Include="Content\ej2\material-dark-lite.css" />
-    <Content Include="Content\ej2\material-dark.css" />
-    <Content Include="Content\ej2\material-lite.css" />
-    <Content Include="Content\ej2\material.css" />
-    <Content Include="Content\ej2\material3-dark-lite.css" />
-    <Content Include="Content\ej2\material3-dark.css" />
-    <Content Include="Content\ej2\material3-lite.css" />
-    <Content Include="Content\ej2\material3.css" />
-    <Content Include="Content\ej2\tailwind-dark-lite.css" />
-    <Content Include="Content\ej2\tailwind-dark.css" />
-    <Content Include="Content\ej2\tailwind-lite.css" />
-    <Content Include="Content\ej2\tailwind.css" />
-    <Content Include="Content\ej2\tailwind3-dark-lite.css" />
-    <Content Include="Content\ej2\tailwind3-dark.css" />
-    <Content Include="Content\ej2\tailwind3-lite.css" />
-    <Content Include="Content\ej2\tailwind3.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\jquery-3.7.0.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.bundle.js" />
-    <Content Include="Scripts\bootstrap.bundle.min.js" />
-    <Content Include="Scripts\bootstrap.esm.js" />
-    <Content Include="Scripts\bootstrap.esm.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\ej2\ej2-pdfviewer-lib\pdfium.js" />
-    <Content Include="Scripts\ej2\ej2-pdfviewer-lib\pdfium.wasm" />
-    <Content Include="Content\ej2\compatibility\material.scss" />
-    <Content Include="Content\ej2\compatibility\highcontrast.scss" />
-    <Content Include="Content\ej2\compatibility\fabric.scss" />
-    <Content Include="Content\ej2\compatibility\bootstrap4.scss" />
-    <Content Include="Content\ej2\compatibility\bootstrap.scss" />
-    <None Include="Scripts\jquery-3.7.0.intellisense.js" />
-    <Content Include="Scripts\ej2\ej2.min.js" />
-    <Content Include="Scripts\jquery-3.7.0.js" />
-    <Content Include="Scripts\jquery-3.7.0.min.js" />
-    <Content Include="Scripts\jquery-3.7.0.slim.js" />
-    <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -269,46 +164,12 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\customDict.dic" />
-    <Content Include="App_Data\en_US.aff" />
-    <Content Include="App_Data\en_US.dic" />
-    <Content Include="App_Data\spellcheck.json" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.rtl.min.css.map" />
-    <Content Include="Content\bootstrap.rtl.css.map" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
-    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
-    <Content Include="Content\bootstrap-utilities.min.css.map" />
-    <Content Include="Content\bootstrap-utilities.css.map" />
-    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
-    <Content Include="Content\bootstrap-grid.rtl.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.esm.min.js.map" />
-    <Content Include="Scripts\bootstrap.esm.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
-    <Content Include="Scripts\jquery-3.7.0.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\ej2\ej2.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
