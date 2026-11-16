@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains an ASP.NET MVC application that demonstrates how to compare two Word documents side by side using the Syncfusion<sup style="font-size:70%">&reg;</sup> [ASP.NET MVC DOCX Editor](https://www.syncfusion.com/docx-editor-sdk/asp-net-mvc-docx-editor?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples) (Document Editor). The sample allows users to upload an original and a revised document, compare them using the Document Editor web service, and view the comparison results with revision tracking.
+This sample contains an ASP.NET MVC application that demonstrates how to compare two Word documents side by side using the Syncfusion<sup style="font-size:70%">&reg;</sup> [ASP.NET MVC DOCX Editor](https://www.syncfusion.com/docx-editor-sdk/asp-net-mvc-docx-editor?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples) (Document Editor). The sample allows users to upload an original and a revised document, compare them using the Document Editor web service, and view the comparison results with revision tracking.
 
 ### Features
 
@@ -121,21 +121,3 @@ ASP.NET MVC DOCX Editor
         ├── Left Editor  → Original
         └── Right Editor → Compared / Revised
 ```
-
----
-
-# Resources
-
-- **Product page:**   [Syncfusion® ASP.NET MVC DOCX Editor](https://www.syncfusion.com/docx-editor-sdk/asp-net-mvc-docx-editor?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples) 
-
-- **Documentation:**   [Syncfusion® ASP.NET MVC DOCX Editor - Documentation](https://help.syncfusion.com/document-processing/word/word-processor/asp-net-mvc/overview?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples) 
-
-- **Online demo:**   [Syncfusion® ASP.NET MVC DOCX Editor - Online demo](https://document.syncfusion.com/demos/docx-editor/asp-net-mvc/documenteditor/defaultfunctionalities?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples#/tailwind3)
-
-# Support and feedback 
-
-For any other queries, reach our [Syncfusion® support team](https://support.syncfusion.com/?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples) or post the queries through the [community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples). 
-
-# License 
-
-This is a commercial product and requires a paid license for possession or use. Syncfusion's licensed software, including this component, is subject to the terms and conditions of [Syncfusion's EULA](https://www.syncfusion.com/license/studio/22.2.5/syncfusion_essential_studio_eula.pdf?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples). You can purchase a license [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples) or start a free 30\-day trial [here](https://www.syncfusion.com/account/manage-trials/start-trials?utm_source=github&utm_medium=listing&utm_campaign=github-asp-net-mvc-docx-editor-examples).
