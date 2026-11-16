@@ -35,3 +35,4 @@ npm-debug.log*
 *.log
 .DS_Store
 Thumbs.db
+App_Data/SavedDocuments/
