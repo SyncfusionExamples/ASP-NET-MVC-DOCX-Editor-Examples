@@ -1,0 +1,484 @@
+@{
+    ViewBag.Title = "Side by Side Comparison";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Syncfusion.EJ2
+
+<div class="content-container" id="container">
+    <div class="control-section">
+        <!-- Controls container -->
+        <div class="controls-container" style="width: 760px; margin: 10px auto">
+            <!-- Files row -->
+            <div class="files-row" style="display: flex; gap: 6px">
+                <!-- Original -->
+                <div style="width: 360px; border-radius: 6px; padding: 14px; border: 1px dashed #ccc">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span>Original document</span>
+                        <label style="padding: 4px 10px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                            cursor: pointer;">
+                            Choose file
+                            <input type="file" style="display: none;" id="originalFileInput" accept=".docx,.sfdt" />
+                        </label>
+                    </div>
+                    <!-- Filename + Delete icon -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-size: 12px; color: #666;">
+                        <span id="originalFileName">Supported formats: SFDT, DOCX</span>
+                        <span id="removeOriginalFile" class="e-icons e-trash" style="cursor: pointer;" title="Remove file"></span>
+                    </div>
+                </div>
+                <!-- Revised file section-->
+                <div style="width: 360px; border-radius: 6px; padding: 14px; border: 1px dashed #ccc;">
+                    <!-- Top row -->
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span>Revised document</span>
+                        <label style="padding: 4px 10px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                            cursor: pointer;">
+                            Choose file
+                            <input type="file" style="display: none;" id="revisedFileInput" accept=".docx,.sfdt" />
+                        </label>
+                    </div>
+                    <!-- Filename + Delete icon -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-size: 12px; color: #666;">
+                        <span id="revisedFileName">Supported formats: SFDT, DOCX</span>
+                        <span id="removeRevisedFile" class="e-icons e-trash" style="cursor: pointer;" title="Remove file"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- Checkbox, Compare & Download buttons  -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+                <!-- Checkbox -->
+                <div class="actions-row">
+                    <label>
+                        <input type="checkbox" id="showResultCheckbox" checked="true" />
+                        Show comparison results with tracked changes
+                    </label>
+                </div>
+                <div style="display: flex; gap: 10px; margin-right: 32px;">
+                    <button class="e-primary" id="compareButton">Compare</button>
+                    <button class="e-outline e-flat e-primary" id="downloadButton">Download Result Document</button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Editors Area -->
+        <div style="display: flex; gap: 6px; height: calc(100vh - 160px); padding: 0px 10px;">
+            <!-- Left Container -->
+            <div style="width: 50%; display: flex; flex-direction: column; border: 1px solid #ddd; overflow: hidden;">
+                <div style="padding: 8px; font-weight: 600;" class="e-de-ctn-title">Original Document</div>
+                <div style="flex: 1; height: 100%;">
+                    @Html.EJS().DocumentEditorContainer("docEditorContainer1").Height("100%").EnableToolbar(false).ShowPropertiesPane(false).Render()
+                </div>
+            </div>
+            <!-- Right Editor -->
+            <div style="width: 50%; display: flex; flex-direction: column; border: 1px solid #ddd; overflow: hidden;">
+                <div class="e-de-ctn-title" style="display: flex; justify-content: space-between; align-items: center">
+                    <div style="float: left; padding: 8px; font-weight: 600; flex: 1px;" id="rightEditorTitle">
+                        Result Document (with tracked changes)
+                    </div>
+                    <button id="showRevisionsButton"
+                            class="e-de-ctn-title"
+                            iconCss="e-icons e-eye"
+                            style="float: right; font-weight: 400; background: transparent; box-shadow: none; border-color: transparent; border-radius: 0px;
+                                color: inherit; font-size: 12px;"
+                            title="Show/Hide Revisions Pane">
+                        Show Review Pane
+                    </button>
+                </div>
+                <div style="flex: 1; height: 100%;">
+                    @Html.EJS().DocumentEditorContainer("docEditorContainer2").Height("100%").EnableToolbar(false).ShowPropertiesPane(false).Render()
+                </div>
+            </div>
+        </div>
+
+        <!-- Waiting Popup Overlay -->
+        <div class="overlay" id="popup-overlay"></div>
+        <div id='waiting-popup' style="display: none;">
+            <svg class="circular" height="40" width="40">
+                <circle class="circle-path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+
+    <style>
+        /* Add essential styles to ensure proper layout */
+        #comparison-control-panel {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+            gap: 12px;
+            padding: 18px;
+            margin: 20px auto 24px auto;
+            border: 1.5px solid #d4dbf9;
+            background: #f6f9fe;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(80,120,220,0.06);
+        }
+
+        #file-upload-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        #options-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #editors-container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .editor-container {
+            width: 50%;
+            min-width: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #documentEditor1, #documentEditor2 {
+            height: calc(100% - 25px);
+            border: 1px solid #e0e0e0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(56, 56, 56, 0.5);
+            z-index: 9999;
+            display: none;
+            cursor: not-allowed;
+        }
+
+        #waiting-popup {
+            width: 56px;
+            height: 56px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            padding: 3px;
+            background: white;
+            box-shadow: 0px 3px 6px rgba(0,0,0,.3);
+            z-index: 10000;
+            display: none;
+        }
+
+
+        .circular {
+            animation: rotate 2s linear infinite;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        .circle-path {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+            animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+            stroke-linecap: round;
+            stroke: #ff4081;
+        }
+
+        @@keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @@keyframes dash {
+            0% {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+            }
+
+            50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -35;
+            }
+
+            100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124;
+            }
+        }
+    </style>
+
+@section Scripts{
+    <script>
+
+    var serviceUrl = 'https://document.syncfusion.com/web-services/docx-editor/api/documenteditor/'; //only for demo purpose.
+    var editor1, editor2;
+    var originalFile = null;
+    var revisedFile = null;
+    document.addEventListener('DOMContentLoaded', function () {
+        var compareButtonEJ = new ej.buttons.Button({ isPrimary: true, disabled: true }, '#compareButton');
+        var downloadButtonEJ = new ej.buttons.Button({ cssClass: 'e-outline e-primary', disabled: true }, '#downloadButton');
+        var showRevisionsButtonEJ = new ej.buttons.Button({ iconCss: 'e-icons e-eye' }, '#showRevisionsButton');
+
+        var originalFileInput = document.getElementById('originalFileInput');
+        var revisedFileInput = document.getElementById('revisedFileInput');
+        var showTrackedChanges = document.getElementById('showResultCheckbox');
+        var compareButton = document.getElementById('compareButton');
+        var downloadButton = document.getElementById('downloadButton');
+        var editor2Label = document.getElementById('rightEditorTitle');
+        var removeOriginalFileSpan = document.getElementById('removeOriginalFile');
+        var removeRevisedFileSpan = document.getElementById('removeRevisedFile');
+        var showRevisionsButton = document.getElementById('showRevisionsButton');
+
+        var documenteditorElement1 = document.getElementById("docEditorContainer1");
+        var container1 = documenteditorElement1.ej2_instances[0];
+        editor1 = container1.documentEditor;
+        container1.serviceUrl = serviceUrl;
+        editor1.serviceUrl = serviceUrl;
+
+        var documenteditorElement2 = document.getElementById("docEditorContainer2");
+        var container2 = documenteditorElement2.ej2_instances[0];
+        editor2 = container2.documentEditor;
+        container2.serviceUrl = serviceUrl;
+        editor2.serviceUrl = serviceUrl;
+
+        var ajax = new ej.base.Ajax("@Url.Content("~/scripts/documenteditor/data-original-document.json")", 'GET', true);
+        ajax.send().then();
+        ajax.onSuccess = function (originalData) {
+            editor1.open(originalData);
+            editor1.documentName = 'Original Document';
+        };
+
+        var ajax = new ej.base.Ajax("@Url.Content("~/scripts/documenteditor/data-revised-document.json")", 'GET', true);
+        ajax.send().then();
+        ajax.onSuccess = function (revisedData) {
+            editor2.showRevisions = false;
+            editor2.open(revisedData);
+            editor2.documentName = 'Revised Document';
+        };
+
+        wireDocumentEditorScrollSync();
+
+        function updateButtonStates() {
+            compareButtonEJ.disabled = !(originalFile != null && revisedFile != null);
+            downloadButtonEJ.disabled = compareButtonEJ.disabled;
+        }
+
+        function setOringialFileName() {
+            const originalFileNameElement = document.getElementById('originalFileName');
+            if (originalFileNameElement) {
+                if (originalFile) {
+                    const size = Math.round(originalFile.size / 1024);
+                    const originalFileName = `${originalFile.name} (${size} KB)`;
+                    originalFileNameElement.textContent = originalFileName;
+                }
+                else {
+                    originalFileNameElement.textContent = "Supported formats: SFDT, DOCX";
+                }
+            }
+        }
+
+        function setRevisedFileName() {
+            const revisedFileNameElement = document.getElementById('revisedFileName');
+            if (revisedFileNameElement) {
+                if (revisedFile) {
+                    const size = Math.round(revisedFile.size / 1024);
+                    const revisedFileName = `${revisedFile.name} (${size} KB)`;
+                    revisedFileNameElement.textContent = revisedFileName;
+                }
+                else {
+                    revisedFileNameElement.textContent = "Supported formats: SFDT, DOCX";
+                }
+            }
+        }
+
+        function showHideWaitingIndicator(show) {
+            var waitingPopUp = document.getElementById('waiting-popup');
+            var inActiveDiv = document.getElementById('popup-overlay');
+            if (waitingPopUp && inActiveDiv) {
+                inActiveDiv.style.display = show ? 'block' : 'none';
+                waitingPopUp.style.display = show ? 'block' : 'none';
+            }
+        }
+
+        function wireDocumentEditorScrollSync() {
+            if (editor1 && editor2) {
+                editor1.viewChange = function () {
+                    var pos = editor1.selection.getScrollPosition();
+                    editor2.selection.setScrollPosition(pos);
+                };
+                editor2.viewChange = function () {
+                    var pos = editor2.selection.getScrollPosition();
+                    editor1.selection.setScrollPosition(pos);
+                };
+            }
+        }
+
+        originalFileInput.addEventListener('change', function (e) {
+            originalFile = e.target.files[0] || null;
+            updateButtonStates();
+            setOringialFileName();
+        });
+        revisedFileInput.addEventListener('change', function (e) {
+            revisedFile = e.target.files[0] || null;
+            updateButtonStates();
+            setRevisedFileName();
+        });
+
+        // Add event listeners for clicking the remove icon for file names.
+        removeOriginalFileSpan.addEventListener('click', function (e) {
+            originalFile = null;
+            updateButtonStates();
+            setOringialFileName();
+        });
+
+        removeRevisedFileSpan.addEventListener('click', function (e) {
+            revisedFile = null;
+            updateButtonStates();
+            setRevisedFileName();
+        });
+
+        showTrackedChanges.addEventListener('change', function (e) {
+            editor2Label.textContent = e.target.checked ? 'Result Document (with tracked changes)' : 'Revised Document';
+            showRevisionsButton.style.display = e.target.checked ? 'block' : 'none';
+        });
+
+        compareButton.addEventListener('click', function () {
+            onCompare(originalFile, revisedFile, showTrackedChanges.checked);
+        });
+
+        downloadButton.addEventListener('click', onDownload);
+
+        showRevisionsButton.addEventListener('click', function () {
+            if (editor2) {
+                editor2.showRevisions = !editor2.showRevisions;
+                showRevisionsButtonEJ.content = editor2.showRevisions ? 'Hide Review Pane' : 'Show Review Pane';
+            }
+        });
+
+        function onCompare(originalFile, revisedFile, showResult) {
+            var formatTypeOringalFile = originalFile.name.slice(originalFile.name.lastIndexOf('.')).toLowerCase();
+            var formatTypeRevisedFile = revisedFile.name.slice(revisedFile.name.lastIndexOf('.')).toLowerCase();
+            if (isSupportedFormatType(formatTypeOringalFile) && isSupportedFormatType(formatTypeRevisedFile)) {
+                downloadButtonEJ.disabled = true;
+                showRevisionsButtonEJ.content = 'Show Review Pane';
+                showHideWaitingIndicator(true);
+                setTimeout(async function () {
+                    try {
+                        if (showResult) {
+                            if (originalFile) await openFileInEditor(originalFile, editor1);
+                            if (originalFile && revisedFile) {
+                                await loadComparedDocumentAndOpen(originalFile, revisedFile, editor2);
+                                downloadButtonEJ.disabled = false;
+                            }
+                        } else {
+                            if (originalFile) await openFileInEditor(originalFile, editor1);
+                            if (revisedFile) {
+                                await openFileInEditor(revisedFile, editor2);
+                                downloadButtonEJ.disabled = false;
+                            }
+                        }
+                    } catch (error) {
+                        alert('Failed to complete comparison: ' + error.message);
+                    }
+                    showHideWaitingIndicator(false);
+                }, 0);
+            }
+            else {
+                alert('The source and revised file should be either in SFDT or DOCX. Please try again.');
+                compareButtonEJ.disabled = true;
+                downloadButtonEJ.disabled = true;
+            }
+        }
+
+        function onDownload() {
+            if (editor2)
+                editor2.save('Result', 'Docx');
+        }
+
+        function isSupportedFormatType(formatType) {
+            return ['.docx', '.sfdt'].includes(formatType);
+        }
+
+        function openFileInEditor(file, editor) {
+            return new Promise(function (resolve, reject) {
+                var formatType = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
+                if (formatType === '.sfdt') {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        if (editor) {
+                            editor.showRevisions = false;
+                            editor.open(e.target.result);
+                            resolve();
+                        } else reject(new Error('Editor not ready'));
+                    };
+                    reader.onerror = reject;
+                    reader.readAsText(file);
+                }
+                else if (isSupportedFormatType(formatType)) {
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    fetch(serviceUrl + 'Import', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(r => r.ok ? r.text() : Promise.reject('Failed import'))
+                        .then(sfdtString => {
+                            if (editor) {
+                                editor.showRevisions = false;
+                                editor.open(sfdtString);
+                                resolve();
+                            } else reject(new Error('Editor not ready'));
+
+                        })
+                        .catch(reject);
+                }
+                else {
+                    alert('Unsupported file type.');
+                    compareButtonEJ.disabled = true;
+                    downloadButtonEJ.disabled = true;
+                    reject(new Error('Unsupported file type'));
+                }
+            });
+        }
+
+        function loadComparedDocumentAndOpen(originalFile, revisedFile, editor) {
+            return new Promise(function (resolve, reject) {
+                var formData = new FormData();
+                formData.append("originalFile", originalFile);
+                formData.append("revisedFile", revisedFile);
+                formData.append("author", "Author");
+                formData.append("dateTime", new Date().toISOString());
+                fetch(serviceUrl + 'CompareDocuments', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(r => r.ok ? r.text() : Promise.reject('Compare failed'))
+                    .then(sfdtString => {
+                        if (editor) {
+                            editor.showRevisions = false;
+                            editor.open(sfdtString);
+                            resolve();
+                        } else reject(new Error('Editor not ready'));
+                    })
+                    .catch(reject);
+            });
+
+        }
+    });
+    </script>
+}
