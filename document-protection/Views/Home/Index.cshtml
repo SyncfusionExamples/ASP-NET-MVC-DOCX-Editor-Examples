@@ -64,7 +64,7 @@
 </div>
 <div class="sample-content">
     <div class="editor-holder">
-        @Html.EJS().DocumentEditorContainer("container").Height("590px").ServiceUrl("https://document.syncfusion.com/web-services/docx-editor/api/documenteditor/").EnableToolbar(true).EnableSpellCheck(true).ToolbarMode("Ribbon").Created("onCreated").Render()
+        @Html.EJS().DocumentEditorContainer("container").Height("590px").ServiceUrl("https://document.syncfusion.com/web-services/docx-editor/api/documenteditor/").EnableToolbar(true).Created("onCreated").Render()
     </div>
 </div>
 
@@ -205,11 +205,6 @@
         var currentUser = users[0];
 
         function onCreated() {
-            container = document.getElementById('container').ej2_instances[0];
-            documentEditor = container.documentEditor;
-
-            documentEditor.open(JSON.stringify(documentProtectionData));
-            applyUserPermissions(currentUser);
 
             var userSelect = document.getElementById('userSelect');
             users.forEach(function (user) {
@@ -228,6 +223,13 @@
                     applyUserPermissions(currentUser);
                 }
             });
+
+            container = document.getElementById('container').ej2_instances[0];
+            container.toolbarMode = 'Ribbon';
+            documentEditor = container.documentEditor;
+
+            documentEditor.open(JSON.stringify(documentProtectionData));
+            applyUserPermissions(currentUser);
 
             documentEditor.beforeAcceptRejectChanges = function (args) {
                 if (currentUser.email === 'andrew@example.com') {
