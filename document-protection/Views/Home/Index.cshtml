@@ -1,0 +1,265 @@
+@{
+    ViewBag.Title = "User based restrict editing and approval workflow - ASP.NET MVC DOCX Editor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Syncfusion.EJ2
+
+<div class="sample-header">
+    <h1>User based restrict editing and approval workflow in ASP.NET MVC DOCX Editor</h1>
+    <p>
+        Select a user to switch between role-based editing restrictions: price-only editing with editable
+        ranges, tracked changes review, comments-only review, full editing and read-only access.
+    </p>
+</div>
+<div class="sample-toolbar">
+    <div class="permission-holder">
+        <table class="permission-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Permissions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nancy</td>
+                    <td>Price Editor</td>
+                    <td>nancy@example.com</td>
+                    <td>Can edit only the price values (marked editable ranges)</td>
+                </tr>
+                <tr>
+                    <td>Andrew</td>
+                    <td>Reviewer</td>
+                    <td>andrew@example.com</td>
+                    <td>All edits are tracked; cannot accept/reject revisions</td>
+                </tr>
+                <tr>
+                    <td>Steven</td>
+                    <td>Commenter</td>
+                    <td>steven@example.com</td>
+                    <td>Can insert comments only; cannot edit content</td>
+                </tr>
+                <tr>
+                    <td>Michael</td>
+                    <td>Editor</td>
+                    <td>michael@example.com</td>
+                    <td>Full editing (approves the tracked changes)</td>
+                </tr>
+                <tr>
+                    <td>Laura</td>
+                    <td>Viewer</td>
+                    <td>laura@example.com</td>
+                    <td>Read-only access to the document</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="sample-toolbar">
+    <label for="userSelect">Signed in user:</label>
+    <select id="userSelect" title="Choose the user whose permissions are applied"></select>
+    <span id="permissionBanner" class="permission-banner"></span>
+</div>
+<div class="sample-content">
+    <div class="editor-holder">
+        @Html.EJS().DocumentEditorContainer("container").Height("590px").ServiceUrl("https://document.syncfusion.com/web-services/docx-editor/api/documenteditor/").EnableToolbar(true).EnableSpellCheck(true).ToolbarMode("Ribbon").Created("onCreated").Render()
+    </div>
+</div>
+
+<style>
+    .sample-header {
+        padding: 16px 24px 8px;
+        background-color: #ffffff;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .sample-header h1 {
+        margin: 0 0 4px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a202c;
+    }
+
+    .sample-header p {
+        margin: 0;
+        font-size: 13px;
+        color: #5f6b7a;
+    }
+
+    .sample-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 24px;
+        background-color: #ffffff;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .sample-toolbar label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1a202c;
+    }
+
+    .sample-toolbar select {
+        min-width: 160px;
+        height: 30px;
+        padding: 2px 6px;
+        border: 1px solid #c3cdd5;
+        border-radius: 4px;
+        font-size: 13px;
+    }
+
+    .permission-banner {
+        font-size: 12px;
+        color: #5f6b7a;
+    }
+
+    .sample-content {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .editor-holder {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .permission-holder {
+        flex: 1;
+        padding: 0;
+    }
+
+    .permission-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
+
+    .permission-table th,
+    .permission-table td {
+        padding: 6px 8px;
+        border: 1px solid #e0e0e0;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .permission-table th {
+        background-color: #f4f5f7;
+        font-weight: 600;
+        color: #1a202c;
+    }
+
+    .permission-table td:nth-child(3) {
+        word-break: break-all;
+    }
+</style>
+
+@section scripts {
+    <script src="~/Scripts/data/data-document-protection.js"></script>
+    <script>
+        ej.documenteditor.DocumentEditorContainer.Inject(ej.documenteditor.Toolbar, ej.documenteditor.Ribbon);
+
+        var users = [
+            {
+                name: 'Nancy',
+                email: 'nancy@example.com',
+                role: 'Price Editor',
+                protectionType: 'ReadOnly',
+                description: 'Can edit only the price values (editable ranges marked in the document)'
+            },
+            {
+                name: 'Andrew',
+                email: 'andrew@example.com',
+                role: 'Reviewer',
+                protectionType: 'RevisionsOnly',
+                description: 'All edits are tracked as revisions; cannot accept or reject revisions'
+            },
+            {
+                name: 'Steven',
+                email: 'steven@example.com',
+                role: 'Commenter',
+                protectionType: 'CommentsOnly',
+                description: 'Can insert comments only; cannot edit document content'
+            },
+            {
+                name: 'Michael',
+                email: 'michael@example.com',
+                role: 'Editor',
+                protectionType: 'NoProtection',
+                description: 'Full editing access on the entire document'
+            },
+            {
+                name: 'Laura',
+                email: 'laura@example.com',
+                role: 'Viewer',
+                protectionType: 'ReadOnly',
+                description: 'Read-only access to the document'
+            }
+        ];
+
+        var container;
+        var documentEditor;
+        var currentUser = users[0];
+
+        function onCreated() {
+            container = document.getElementById('container').ej2_instances[0];
+            documentEditor = container.documentEditor;
+
+            documentEditor.open(JSON.stringify(documentProtectionData));
+            applyUserPermissions(currentUser);
+
+            var userSelect = document.getElementById('userSelect');
+            users.forEach(function (user) {
+                var option = document.createElement('option');
+                option.value = user.email;
+                option.text = user.name;
+                userSelect.appendChild(option);
+            });
+
+            userSelect.addEventListener('change', function () {
+                var selected = users.find(function (user) {
+                    return user.email === userSelect.value;
+                });
+                if (selected) {
+                    currentUser = selected;
+                    applyUserPermissions(currentUser);
+                }
+            });
+
+            documentEditor.beforeAcceptRejectChanges = function (args) {
+                if (currentUser.email === 'andrew@example.com') {
+                    args.cancel = true;
+                }
+            };
+        }
+
+        function applyUserPermissions(user) {
+            if (!documentEditor) {
+                return;
+            }
+            if (documentEditor.documentHelper.isDocumentProtected) {
+                documentEditor.editorModule.unProtectDocument();
+            }
+            documentEditor.isReadOnly = false;
+            documentEditor.currentUser = user.email;
+            if (user.protectionType !== 'NoProtection') {
+                documentEditor.editorModule.enforceProtection('', user.protectionType);
+            }
+            if (user.email === 'laura@example.com') {
+                documentEditor.isReadOnly = true;
+            }
+            documentEditor.documentHelper.restrictEditingPane.showHideRestrictPane(false);
+            updatePermissionBanner(user);
+        }
+
+        function updatePermissionBanner(user) {
+            var banner = document.getElementById('permissionBanner');
+            if (banner) {
+                banner.textContent = 'Signed in as ' + user.name + ' (' + user.email + ') - ' + user.role;
+            }
+        }
+    </script>
+}
